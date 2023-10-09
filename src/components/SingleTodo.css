@@ -1,0 +1,33 @@
+.single {
+    padding: 2px;
+    margin: 10px ;
+    display: flex;
+    border-radius: 20px;
+    background-color:grey;
+    justify-content: space-around;
+    width: 100%;
+}
+.todo-name{
+    margin: 5px;
+    padding: 5px;
+}
+.icons{
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+}
+.icon{
+    padding: 5px;
+    cursor: pointer;
+}
+.icon:hover{
+    transform: scale(0.9);
+}
+.btn1 {
+    background-color: rgb(11, 226, 11);
+    border-radius: 25%;
+    width: 50px;
+    font-size: 15px;
+    padding: 5px;
+    border: none;
+}
