@@ -1,7 +1,6 @@
 const todo = [{
-    task: "Buy Apples",
-},{
-    task: "Go to Gym",
-}];
+    task: "Buy Apples"}
+];
+
 export default todo;
 

@@ -10,7 +10,7 @@ function App() {
     setTask(event.target.value);
   }
   
-  const found = todos.some((todo) => todo.task===task);
+  // const found = todos.some((todo) => todo.task===task);
   
   const handleClick = (e) => {
     if(task !== null ){
