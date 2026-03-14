@@ -6,3 +6,8 @@
     padding: 20px;
     border-radius: 20px;
 }
+.empty-state {
+    color: #444;
+    font-style: italic;
+    margin: 20px 0;
+}

@@ -6,57 +6,77 @@ import { TodoType } from '../data';
 interface SingleTodoProps {
   todo: TodoType;
   handleDelete: (todo: TodoType) => void;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   setTodos: Dispatch<SetStateAction<TodoType[]>>;
-  task: string | null;
-  todos: TodoType[];
 }
 
-const SingleTodo: React.FC<SingleTodoProps> = ({ todo, handleDelete, handleChange, setTodos, task, todos }) => {
-  const [isDone, setIsdone] = useState(false);
+const SingleTodo: React.FC<SingleTodoProps> = ({ todo, handleDelete, setTodos }) => {
   const [isEdit, setEdit] = useState(false);
+  const [editTask, setEditTask] = useState(todo.task);
 
   const handleDone = () => {
-    setIsdone(true);
+    setTodos(prev => prev.map((t) => {
+      if (t.id === todo.id) {
+        return { ...t, isDone: !t.isDone };
+      }
+      return t;
+    }));
   }
 
   const handleEdit = () => {
+    setEditTask(todo.task);
     setEdit(true);
   }
 
-  const handleClick = (todo: TodoType) => {
+  const handleSave = () => {
     setEdit(false);
-    if (task !== null && task.trim() !== '') {
-      setTodos(todos.map((tod) => {
-        if (tod.id === todo.id) {
-          return { ...tod, task: task };
+    if (editTask.trim() !== '') {
+      setTodos(prev => prev.map((t) => {
+        if (t.id === todo.id) {
+          return { ...t, task: editTask.trim() };
         }
-        return tod;
+        return t;
       }));
     }
   }
 
+  const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditTask(e.target.value);
+  }
+
+  const handleEditKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    }
+    if (e.key === 'Escape') {
+      setEdit(false);
+    }
+  }
+
   return (
-    <div className='single'>
-      {isDone === true ? (
-        <s className='todo-name'><b>{todo.task}</b></s>
-      ) : isEdit === false ? (
-        <h4 className='todo-name'>{todo.task}</h4>
-      ) : (
+    <div className={`single${todo.isDone ? ' done' : ''}`}>
+      {isEdit ? (
         <div className='inp'>
           <input
             className='int'
             type='text'
-            defaultValue={todo.task}
-            onChange={(e) => handleChange(e)}
+            value={editTask}
+            onChange={handleEditChange}
+            onKeyDown={handleEditKeyDown}
+            autoFocus
           />
-          <button className='btn1' onClick={() => handleClick(todo)}>Save</button>
+          <button className='btn1' onClick={handleSave}>Save</button>
         </div>
+      ) : (
+        <span className={`todo-name${todo.isDone ? ' strikethrough' : ''}`}>{todo.task}</span>
       )}
       <div className='icons'>
-        <FaCheck className='icon' onClick={handleDone} />
-        <FaEdit className='icon' onClick={handleEdit} />
-        <FaTrash className='icon' onClick={() => handleDelete(todo)} />
+        <FaCheck
+          className={`icon${todo.isDone ? ' check-done' : ''}`}
+          onClick={handleDone}
+          title={todo.isDone ? 'Mark as active' : 'Mark as done'}
+        />
+        <FaEdit className='icon' onClick={handleEdit} title='Edit' />
+        <FaTrash className='icon' onClick={() => handleDelete(todo)} title='Delete' />
       </div>
     </div>
   )
