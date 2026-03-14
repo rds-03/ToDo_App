@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import SingleTodo from './SingleTodo'
 import './Todo.css';
 import { TodoType } from '../data';
@@ -6,32 +6,27 @@ import { TodoType } from '../data';
 interface TodosProps {
   todos: TodoType[];
   setTodos: Dispatch<SetStateAction<TodoType[]>>;
-  setTask: Dispatch<SetStateAction<string | null>>;
-  task: string | null;
 }
 
-const Todos: React.FC<TodosProps> = ({ todos, setTodos, setTask, task }) => {
+const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
   const handleDelete = (todo: TodoType) => {
-    setTodos(todos.filter((tasks) => tasks.id !== todo.id))
-  }
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTask(e.target.value);
+    setTodos(prev => prev.filter((t) => t.id !== todo.id))
   }
 
   return (
     <div className='todos'>
-      {todos.map((todo) => (
-        <SingleTodo
-          key={todo.id}
-          todo={todo}
-          handleDelete={handleDelete}
-          handleChange={handleChange}
-          setTodos={setTodos}
-          task={task}
-          todos={todos}
-        />
-      ))}
+      {todos.length === 0 ? (
+        <p className='empty-state'>No tasks here!</p>
+      ) : (
+        todos.map((todo) => (
+          <SingleTodo
+            key={todo.id}
+            todo={todo}
+            handleDelete={handleDelete}
+            setTodos={setTodos}
+          />
+        ))
+      )}
     </div>
   )
 }

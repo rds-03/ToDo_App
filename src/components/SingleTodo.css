@@ -6,15 +6,25 @@
     background-color:grey;
     justify-content: space-around;
     width: 100%;
+    transition: background-color 0.3s;
+}
+.single.done {
+    background-color: #888;
+    opacity: 0.75;
 }
 .todo-name{
     margin: 5px;
     padding: 5px;
 }
+.todo-name.strikethrough {
+    text-decoration: line-through;
+    color: #ccc;
+}
 .icons{
     margin: 5px;
     padding: 5px;
     display: flex;
+    align-items: center;
 }
 .icon{
     padding: 5px;
@@ -22,6 +32,9 @@
 }
 .icon:hover{
     transform: scale(0.9);
+}
+.icon.check-done {
+    color: #4caf50;
 }
 .btn1 {
     background-color: rgb(11, 226, 11);
